@@ -259,20 +259,30 @@ const [dailyMovies, setDailyMovies] = useState<Movie[]>([]);
 
       <div className="container mx-auto px-4 py-8">
         <Tabs defaultValue={mode} onValueChange={setMode} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="popular" className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">Popular</span>
-            </TabsTrigger>
-            <TabsTrigger value="discover" className="flex items-center gap-2">
-              <Search className="h-4 w-4" />
-              <span className="hidden sm:inline">Discover</span>
-            </TabsTrigger>
-            <TabsTrigger value="daily" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Daily</span>
-            </TabsTrigger>
-          </TabsList>
+        <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsTrigger
+            value="popular"
+            className="flex items-center gap-2 rounded transition-colors duration-200 hover:bg-blue-50 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md"
+          >
+            <TrendingUp className="h-4 w-4" />
+            <span className="hidden sm:inline">Popular</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="discover"
+            className="flex items-center gap-2 rounded transition-colors duration-200 hover:bg-blue-50 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md"
+          >
+            <Search className="h-4 w-4" />
+            <span className="hidden sm:inline">Discover</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="daily"
+            className="flex items-center gap-2 rounded transition-colors duration-200 hover:bg-blue-50 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md"
+          >
+            <Calendar className="h-4 w-4" />
+            <span className="hidden sm:inline">Daily</span>
+          </TabsTrigger>
+        </TabsList>
+
 
           <TabsContent value="discover">
             <DiscoverFilters
