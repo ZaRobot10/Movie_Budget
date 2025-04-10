@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Progress } from "../components/ui/progress"
 
 // Define a type for a movie if you have one; adjust fields as needed.
-interface Movie {
+export interface Movie {
   id: number;
   title: string;
   budget: number;

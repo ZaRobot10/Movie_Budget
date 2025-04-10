@@ -15,23 +15,19 @@ import DiscoverFilters from "./discover-filters"
 import ScoreDisplay from "./score-display"
 import GuessForm from "./guess-form"
 import ResultFeedback from "./result-feedback"
+import { Movie } from "./score-display";
 
 export default function MovieBudgetGame() {
 
-  interface Movie {
-    id: number;
-    title: string;
-    budget: number;
-    poster?: string | null;
-    tip?: string;
-    // Optionally add other properties like release_date, vote_average, runtime, etc.
-  }
-  
+
   // Modes: "popular", "discover", or "daily"
   const [mode, setMode] = useState("popular")
 
   // For popular/discover modes: single movie view.
-  const [movie, setMovie] = useState<Movie | null>(null);
+// For popular/discover modes: single movie view.
+const [movie, setMovie] = useState<Movie | null>(null);
+
+// For daily mode: an array of movies.
 const [dailyMovies, setDailyMovies] = useState<Movie[]>([]);
 
   const [dailyIndex, setDailyIndex] = useState(0)
