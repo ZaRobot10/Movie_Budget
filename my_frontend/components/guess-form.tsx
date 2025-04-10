@@ -1,27 +1,45 @@
 "use client"
 
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react"
 import { DollarSign } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Slider } from "@/components/ui/slider"
-import { useState, useEffect } from "react"
+import { Button } from "../components/ui/button"
+import { Input } from "../components/ui/input"
+import { Slider } from "../components/ui/slider"
 
-export default function GuessForm({ guess, setGuess, handleSubmit, submitted, loading }) {
-  const [sliderValue, setSliderValue] = useState(guess ? Number.parseFloat(guess) : 100)
+// Define the props interface.
+interface GuessFormProps {
+  guess: string;
+  setGuess: (value: string) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  submitted: boolean;
+  loading: boolean;
+}
 
-  // Update slider when guess changes (for resets)
+export default function GuessForm({
+  guess,
+  setGuess,
+  handleSubmit,
+  submitted,
+  loading,
+}: GuessFormProps) {
+  // Initialize slider with the value of guess, or a default of 100.
+  const [sliderValue, setSliderValue] = useState<number>(guess ? Number.parseFloat(guess) : 100)
+
+  // Update slider when guess resets to empty string.
   useEffect(() => {
     if (guess === "") {
       setSliderValue(100)
     }
   }, [guess])
 
-  const handleSliderChange = (value) => {
+  // Handler for slider changes; it receives a number array.
+  const handleSliderChange = (value: number[]) => {
     setSliderValue(value[0])
     setGuess(value[0].toString())
   }
 
-  const handleInputChange = (e) => {
+  // Handler for input changes.
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setGuess(value)
     if (value && !isNaN(Number.parseFloat(value))) {
@@ -87,7 +105,9 @@ export default function GuessForm({ guess, setGuess, handleSubmit, submitted, lo
         </Button>
       </div>
 
-      <div className="text-xs text-gray-400 text-center">Enter your guess between $0-3000 million</div>
+      <div className="text-xs text-gray-400 text-center">
+        Enter your guess between $0-3000 million
+      </div>
     </form>
   )
 }

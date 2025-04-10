@@ -2,28 +2,54 @@
 
 import { motion } from "framer-motion"
 import { Award, TrendingUp, Trophy } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
+import { Progress } from "../components/ui/progress"
 
-export default function ScoreDisplay({ mode, roundCount, totalScore, dailyIndex, dailyScore, dailyMovies }) {
-  const isDaily = mode === "daily"
-  const isDailyComplete = isDaily && dailyMovies.length > 0 && dailyIndex >= dailyMovies.length
-  const isDailyInProgress = isDaily && dailyMovies.length > 0 && dailyIndex < dailyMovies.length
+// Define a type for a movie if you have one; adjust fields as needed.
+interface Movie {
+  id: number;
+  title: string;
+  budget: number;
+  poster: string | null;
+  tip: string;
+}
+
+// Define the props interface for ScoreDisplay.
+interface ScoreDisplayProps {
+  mode: string;             // e.g. "daily" or "popular"
+  roundCount: number;
+  totalScore: number;
+  dailyIndex: number;
+  dailyScore: number;
+  dailyMovies: Movie[];
+}
+
+export default function ScoreDisplay({
+  mode,
+  roundCount,
+  totalScore,
+  dailyIndex,
+  dailyScore,
+  dailyMovies,
+}: ScoreDisplayProps) {
+  const isDaily = mode === "daily";
+  const isDailyComplete = isDaily && dailyMovies.length > 0 && dailyIndex >= dailyMovies.length;
+  const isDailyInProgress = isDaily && dailyMovies.length > 0 && dailyIndex < dailyMovies.length;
 
   // Calculate average score
-  const averageScore = roundCount > 0 ? Math.round(totalScore / roundCount) : 0
-  const dailyProgress = isDailyInProgress ? (dailyIndex / 5) * 100 : isDailyComplete ? 100 : 0
+  const averageScore = roundCount > 0 ? Math.round(totalScore / roundCount) : 0;
+  const dailyProgress = isDailyInProgress ? (dailyIndex / 5) * 100 : isDailyComplete ? 100 : 0;
 
   // Get rank based on score
-  const getRank = (score) => {
-    if (score >= 90) return { title: "Movie Budget Expert", color: "text-yellow-400" }
-    if (score >= 75) return { title: "Hollywood Insider", color: "text-blue-400" }
-    if (score >= 60) return { title: "Film Enthusiast", color: "text-green-400" }
-    if (score >= 40) return { title: "Casual Moviegoer", color: "text-orange-400" }
-    return { title: "Movie Novice", color: "text-gray-400" }
-  }
+  const getRank = (score: number) => {
+    if (score >= 90) return { title: "Movie Budget Expert", color: "text-yellow-400" };
+    if (score >= 75) return { title: "Hollywood Insider", color: "text-blue-400" };
+    if (score >= 60) return { title: "Film Enthusiast", color: "text-green-400" };
+    if (score >= 40) return { title: "Casual Moviegoer", color: "text-orange-400" };
+    return { title: "Movie Novice", color: "text-gray-400" };
+  };
 
-  const rank = getRank(isDaily ? dailyScore / (dailyIndex || 1) : averageScore)
+  const rank = getRank(isDaily ? dailyScore / (dailyIndex || 1) : averageScore);
 
   return (
     <div className="space-y-6">
@@ -130,5 +156,5 @@ export default function ScoreDisplay({ mode, roundCount, totalScore, dailyIndex,
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

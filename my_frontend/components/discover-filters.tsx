@@ -1,13 +1,26 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Search, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "../components/ui/button"
+import { Input } from "../components/ui/input"
+import { Label } from "../components/ui/label"
+import { Slider } from "../components/ui/slider"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
+import { Badge } from "../components/ui/badge"
+
+// Define the props interface
+interface DiscoverFiltersProps {
+  genres: string;
+  setGenres: (value: string) => void;
+  minRating: string;
+  setMinRating: (value: string) => void;
+  releaseBefore: string;
+  setReleaseBefore: (value: string) => void;
+  releaseAfter: string;
+  setReleaseAfter: (value: string) => void;
+  fetchData: () => void;
+}
 
 export default function DiscoverFilters({
   genres,
@@ -19,7 +32,7 @@ export default function DiscoverFilters({
   releaseAfter,
   setReleaseAfter,
   fetchData,
-}) {
+}: DiscoverFiltersProps) {
   const [expanded, setExpanded] = useState(false)
   const [ratingValue, setRatingValue] = useState(minRating ? Number.parseFloat(minRating) * 10 : 0)
 
@@ -37,36 +50,37 @@ export default function DiscoverFilters({
     { id: 53, name: "Thriller" },
   ]
 
-  const handleGenreClick = (id) => {
-    const currentGenres = genres ? genres.split(",").map((g) => g.trim()) : []
-    const idStr = id.toString()
+  const handleGenreClick = (id: number) => {
+    // Get current genres as an array of strings
+    const currentGenres = genres ? genres.split(",").map((g) => g.trim()) : [];
+    const idStr = id.toString();
 
     if (currentGenres.includes(idStr)) {
-      setGenres(currentGenres.filter((g) => g !== idStr).join(","))
+      setGenres(currentGenres.filter((g) => g !== idStr).join(","));
     } else {
-      setGenres([...currentGenres, idStr].join(","))
+      setGenres([...currentGenres, idStr].join(","));
     }
   }
 
-  const handleRatingChange = (value) => {
-    setRatingValue(value[0])
-    setMinRating((value[0] / 10).toFixed(1))
+  const handleRatingChange = (value: number[]) => {
+    setRatingValue(value[0]);
+    setMinRating((value[0] / 10).toFixed(1));
   }
 
   const clearFilters = () => {
-    setGenres("")
-    setMinRating("")
-    setRatingValue(0)
-    setReleaseBefore("")
-    setReleaseAfter("")
+    setGenres("");
+    setMinRating("");
+    setRatingValue(0);
+    setReleaseBefore("");
+    setReleaseAfter("");
   }
 
   const handleApplyFilters = () => {
-    fetchData()
-    setExpanded(false)
+    fetchData();
+    setExpanded(false);
   }
 
-  const selectedGenreIds = genres ? genres.split(",").map((g) => g.trim()) : []
+  const selectedGenreIds = genres ? genres.split(",").map((g) => g.trim()) : [];
 
   return (
     <Card className="bg-gray-800 border-gray-700 mb-6">

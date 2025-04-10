@@ -1,10 +1,18 @@
 "use client"
 
+import React from "react"
 import { motion } from "framer-motion"
 import { AlertCircle, CheckCircle, XCircle } from "lucide-react"
+// If you don't want to use alias, adjust the path accordingly. For example:
+// import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
-export default function ResultFeedback({ feedback, submitted }) {
+interface ResultFeedbackProps {
+  feedback: string;
+  submitted: boolean;
+}
+
+export default function ResultFeedback({ feedback, submitted }: ResultFeedbackProps) {
   if (!feedback || !submitted) return null
 
   // Extract score from feedback
@@ -38,7 +46,11 @@ export default function ResultFeedback({ feedback, submitted }) {
   }
 
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <Alert
         className={`
           border-l-4 

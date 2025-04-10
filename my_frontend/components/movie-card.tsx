@@ -1,10 +1,28 @@
 "use client"
 
+import React from "react"
 import { motion } from "framer-motion"
 import { Calendar, Star, Clock, Info, Film } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "../components/ui/skeleton"
 
-export default function MovieCard({ movie, loading }) {
+// Define an interface for the movie object.
+// Adjust fields according to your actual movie data.
+interface Movie {
+  title: string;
+  poster?: string | null;
+  release_date?: string;
+  vote_average?: number;
+  runtime?: number;
+  tip?: string;
+}
+
+// Define props for the MovieCard component.
+interface MovieCardProps {
+  movie?: Movie | null;
+  loading: boolean;
+}
+
+export default function MovieCard({ movie, loading }: MovieCardProps) {
   if (loading || !movie) {
     return (
       <div className="mb-6 space-y-4">
@@ -17,7 +35,12 @@ export default function MovieCard({ movie, loading }) {
   }
 
   return (
-    <motion.div className="mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+    <motion.div
+      className="mb-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <h2 className="text-2xl font-bold mb-3">{movie.title}</h2>
 
       {movie.poster ? (
@@ -37,7 +60,7 @@ export default function MovieCard({ movie, loading }) {
               </div>
             )}
 
-            {movie.vote_average && (
+            {typeof movie.vote_average === "number" && (
               <div className="flex items-center bg-yellow-600/80 rounded-full px-3 py-1 text-sm">
                 <Star className="h-3 w-3 mr-1 fill-white" />
                 {movie.vote_average.toFixed(1)}

@@ -17,14 +17,23 @@ import GuessForm from "./guess-form"
 import ResultFeedback from "./result-feedback"
 
 export default function MovieBudgetGame() {
+
+  interface Movie {
+    id: number;
+    title: string;
+    budget: number;
+    poster?: string | null;
+    tip?: string;
+    // Optionally add other properties like release_date, vote_average, runtime, etc.
+  }
+  
   // Modes: "popular", "discover", or "daily"
   const [mode, setMode] = useState("popular")
 
   // For popular/discover modes: single movie view.
-  const [movie, setMovie] = useState(null)
+  const [movie, setMovie] = useState<Movie | null>(null);
+const [dailyMovies, setDailyMovies] = useState<Movie[]>([]);
 
-  // For daily mode: array of 5 movies, current index, and daily score.
-  const [dailyMovies, setDailyMovies] = useState([])
   const [dailyIndex, setDailyIndex] = useState(0)
   const [dailyScore, setDailyScore] = useState(0)
   // For daily, store the current round's computed score (but do not update index until next round).
@@ -110,7 +119,7 @@ export default function MovieBudgetGame() {
   }, [mode])
 
   // Handle submission of guess.
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (submitted) return
 
